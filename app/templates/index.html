@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My App</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to My App</h1>
+    </header>
+    <main>
+        <section id="content">
+            <p>This is the main content area.</p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 My App</p>
+    </footer>
+    <script>
+        // Inline script for demonstration
+        console.log('Page loaded');
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM fully loaded and parsed');
+        });
+    </script>
+    <script>
+        // Another inline script
+        console.log('Another inline script');
+        document.getElementById('content').innerHTML += '<p>Dynamic content added!</p>';
+    </script>
