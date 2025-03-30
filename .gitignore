@@ -1,0 +1,51 @@
+# Bytecode & cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+
+# Virtual environment
+.venv/
+env/
+ENV/
+venv/
+
+# Flask instance folder (e.g., SQLite DB)
+instance/
+*.sqlite3
+*.db
+
+# Migrations (optional: only if you don't want to track them)
+migrations/versions/
+
+# Environment variables
+.env
+.flaskenv
+
+# VS Code, PyCharm, JetBrains IDEs
+.vscode/
+.idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Compiled UI (optional)
+*.mo
+*.pot
+
+# Jupyter/Notebook trash (if you experiment)
+.ipynb_checkpoints/
+
+# pytest/cache
+.cache/
+.pytest_cache/
+
+# Pip wheel cache
+*.egg-info/
+dist/
+build/
