@@ -1,0 +1,28 @@
+<!-- app/templates/partials/_sidebar.html -->
+<nav id="sidebar">
+    <div class="sidebar-header">
+        <h3>Dashboard</h3>
+    </div>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'main.index' %}active{% endif %}" href="{{ url_for('main.index') }}">
+                <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fas fa-calendar-day mr-2"></i>Daily
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fas fa-calendar-alt mr-2"></i>Monthly
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fas fa-calendar mr-2"></i>Yearly
+            </a>
+        </li>
+    </ul>
+</nav>
