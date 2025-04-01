@@ -1,15 +1,16 @@
-
-<p align="center">Bachelor Degree Thesis of<br>Muhammad Yusuf Ramadhan</p>
+<p style="text-align: center;">Bachelor Degree Thesis of<br>👨‍💻Muhammad Yusuf Ramadhan<br>BINUS University - Computer Science</p>
 
 # 📊 Crypto Asset Automated Report Generator System
 
-An automated report generation system built with Flask and Python to help crypto asset trading plaatform comply with **OJK regulations (SEOJK 20/SEOJK.07/2024)** by generating accurate, timely, and regulation-compliant reports.
+An automated report generation system built with Flask and Python to help crypto asset trading platform comply with *
+*OJK regulations (SEOJK 20/SEOJK.07/2024)** by generating accurate, timely, and regulation-compliant reports.
 
 ---
 
 ## 🚀 Features
 
-- 🔄 **Automated Data Processing**: Uses ETL (Extract, Transform, Load) techniques to handle simulated crypto transactions.
+- 🔄 **Automated Data Processing**: Uses ETL (Extract, Transform, Load) techniques to handle simulated crypto
+  transactions.
 - 📄 **Report Generation**: Automatically creates daily, monthly, and annual reports in formats required by OJK.
 - ✅ **Regulatory Compliance**: Adheres to SEOJK 20/SEOJK.07/2024 and POJK 27/2024 for digital asset trading.
 - 🛠 **Rule-Based Automation**: Implements rule-based logic to ensure accurate and consistent reporting.
@@ -57,6 +58,7 @@ python run.py
 ---
 
 ## 📚 References
+
 - [OJK Regulation SEOJK 20/SEOJK.07/2024](https://www.ojk.go.id)
 - [POJK 27/2024](https://www.ojk.go.id)
 - Brynjolfsson & McAfee, "Financial Automation: The Future of Finance" (2014)
@@ -68,6 +70,7 @@ python run.py
 - [Python Documentation](https://docs.python.org/3/)
 
 ## 👨‍💻 Author
+
 Muhammad Yusuf Ramadhan\
 BINUS University - Computer Science\
 [LinkedIn](https://www.linkedin.com/in/muhammadyusuframadhan/)
