@@ -11,11 +11,6 @@ env/
 ENV/
 venv/
 
-# Flask instance folder (e.g., SQLite DB)
-instance/
-*.sqlite3
-*.db
-
 # Migrations (optional: only if you don't want to track them)
 migrations/versions/
 
