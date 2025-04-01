@@ -1,31 +1,100 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>My App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <header>
-        <h1>Welcome to My App</h1>
-    </header>
-    <main>
-        <section id="content">
-            <p>This is the main content area.</p>
-        </section>
+<!-- Header -->
+<header>
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="{{ url_for('main.index') }}">
+            OJK Crypto Reporting
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}"><i class="fas fa-sign-out-alt mr-1"></i> Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div class="wrapper">
+    <!-- Sidebar -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3>Dashboard</h3>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">
+                    <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-cog mr-2"></i>Settings
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="content">
+        <div class="content-header">
+            <h1><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</h1>
+            <p class="lead">Welcome to your control panel</p>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-users text-primary mr-2"></i>Users</h5>
+                        <h2>1,254</h2>
+                        <p class="card-text">+12% from last week</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-shopping-cart text-success mr-2"></i>Orders</h5>
+                        <h2>854</h2>
+                        <p class="card-text">+5% from last week</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-dollar-sign text-danger mr-2"></i>Revenue</h5>
+                        <h2>$12,854</h2>
+                        <p class="card-text">+8% from last week</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
-    <footer>
-        <p>&copy; 2023 My App</p>
-    </footer>
-    <script>
-        // Inline script for demonstration
-        console.log('Page loaded');
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM fully loaded and parsed');
-        });
-    </script>
-    <script>
-        // Another inline script
-        console.log('Another inline script');
-        document.getElementById('content').innerHTML += '<p>Dynamic content added!</p>';
-    </script>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <span>&copy; 2023 MyApp. All rights reserved.</span>
+        <span class="float-right">Version 1.0.0</span>
+    </div>
+</footer>
+<script src="{{ url_for('static', filename='js/jquery.slim.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</body>
+</html>

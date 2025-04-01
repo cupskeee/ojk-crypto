@@ -40,7 +40,7 @@ def create_app(config_class=Config):
     from app.routes.auth import auth
 
     app.register_blueprint(main)
-    app.register_blueprint(auth)
+    app.register_blueprint(auth, url_prefix='/auth')
 
     from app import models
     from app import forms

@@ -4,23 +4,25 @@ from flask_login import login_user, current_user, logout_user
 from app import db
 from app.models import User
 from app.forms import LoginForm
+from app.utils.decorator import login_required
 
 auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated:
-        logging.info('User is already authenticated, redirecting to main.index')
-        return redirect(url_for('main.index'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user and user.check_password(form.password.data):
             login_user(user)
-            logging.info('Login successful, redirecting to main.index')
             return redirect(url_for('main.index'))
         else:
             flash('Invalid username or password')
-            logging.info('Invalid login attempt')
-    logging.info('Rendering login.html template')
     return render_template('login.html', form=form)
+
+@auth.route('/logout', methods=['GET'])
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out.')
+    return redirect(url_for('auth.login'))
