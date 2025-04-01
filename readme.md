@@ -1,4 +1,4 @@
-<p style="text-align: center;">Bachelor Degree Thesis of<br>👨‍💻Muhammad Yusuf Ramadhan<br>BINUS University - Computer Science</p>
+<p align="center">Bachelor Degree Thesis of<br>👨‍💻Muhammad Yusuf Ramadhan<br>BINUS University - Computer Science</p>
 
 # 📊 Crypto Asset Automated Report Generator System
 
