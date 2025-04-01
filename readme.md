@@ -1,3 +1,6 @@
+
+<p align="center">Bachelor Degree Thesis of<br>Muhammad Yusuf Ramadhan</p>
+
 # 📊 Crypto Asset Automated Report Generator System
 
 An automated report generation system built with Flask and Python to help crypto asset trading plaatform comply with **OJK regulations (SEOJK 20/SEOJK.07/2024)** by generating accurate, timely, and regulation-compliant reports.
