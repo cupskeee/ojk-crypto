@@ -213,3 +213,250 @@ html, body {
     height: 100%;
     display: flex;
 }
+
+/* Daily Report Form */
+#daily-report-form {
+    background-color: #1f1f1f;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 2rem;
+}
+
+#daily-report-form label {
+    color: #b4b4b4;
+    font-weight: 600;
+}
+
+#daily-report-form .form-control {
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+    border: 1px solid #444;
+    border-radius: 4px;
+}
+
+#daily-report-form .form-control:focus {
+    background-color: #333;
+    color: #e0e0e0;
+    border-color: #03a9f4;
+    box-shadow: 0 0 5px rgba(3, 169, 244, 0.5);
+}
+
+#daily-report-form .btn-primary {
+    background-color: #03a9f4;
+    border-color: #03a9f4;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+#daily-report-form .btn-primary:hover {
+    background-color: #0288d1;
+    box-shadow: 0 4px 8px rgba(3, 169, 244, 0.3);
+}
+
+/* Report Results */
+#report-results {
+    background-color: #1f1f1f;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#report-results h3 {
+    color: #b4b4b4;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+#report-results .table {
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+    overflow: hidden;
+}
+
+#report-results .table thead {
+    background-color: #333;
+    color: #b4b4b4;
+}
+
+#report-results .table tbody tr:hover {
+    background-color: #2c2c2c;
+}
+
+#report-results .table tbody tr td {
+    border-color: #444;
+}
+
+#report-results .table thead th {
+    border: none; /* Remove any border */
+    white-space: normal;
+    word-wrap: break-word;
+    text-align: center;
+}
+
+.scrollable-table {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* WebKit-based browsers (Chrome, Edge, Safari) */
+.scrollable-table::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+    height: 8px; /* Height of the scrollbar (for horizontal scrolling) */
+}
+
+.scrollable-table::-webkit-scrollbar-track {
+    background: #2c2c2c; /* Track background color */
+    border-radius: 4px; /* Rounded corners for the track */
+}
+
+.scrollable-table::-webkit-scrollbar-thumb {
+    background: #444; /* Thumb (scroll handle) color */
+    border-radius: 4px; /* Rounded corners for the thumb */
+}
+
+.scrollable-table::-webkit-scrollbar-thumb:hover {
+    background: #666; /* Thumb color on hover */
+}
+
+/* Firefox */
+.scrollable-table {
+    scrollbar-color: #444 #2c2c2c; /* Thumb color and track color */
+    scrollbar-width: thin; /* Thin scrollbar */
+}
+
+/* Custom Flash Message Styling */
+.alert {
+    margin-top: 20px;
+    font-size: 1rem;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Dark mode form styling */
+body {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+/* Input fields */
+.form-control {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  color: #e0e0e0;
+  border-radius: 5px;
+  padding: 10px 15px;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  background-color: #2a2a2a;
+  border-color: #5c6bc0;
+  box-shadow: 0 0 0 0.2rem rgba(92, 107, 192, 0.25);
+  color: #ffffff;
+}
+
+.form-control::placeholder {
+  color: #666;
+}
+
+/* Form groups */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  color: #bbb;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: #5c6bc0;
+  border-color: #5c6bc0;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background-color: #3f51b5;
+  border-color: #3f51b5;
+  box-shadow: 0 0 0 0.2rem rgba(92, 107, 192, 0.5);
+}
+
+/* Select dropdowns */
+select.form-control {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' viewBox='0 0 8 4'%3E%3Cpath fill='%23888' d='M0 0l4 4 4-4z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 8px 4px;
+  padding-right: 2.5rem;
+  appearance: none;
+}
+
+/* Checkboxes and radio buttons */
+.custom-control-input:checked ~ .custom-control-label::before {
+  background-color: #5c6bc0;
+  border-color: #5c6bc0;
+}
+
+.custom-control-label::before {
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+}
+
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: 0 0 0 0.2rem rgba(92, 107, 192, 0.25);
+}
+
+/* Form validation */
+.was-validated .form-control:valid, .form-control.is-valid {
+  border-color: #43a047;
+}
+
+.was-validated .form-control:invalid, .form-control.is-invalid {
+  border-color: #e53935;
+}
+
+/* Input groups */
+.input-group-text {
+  background-color: #2a2a2a;
+  border: 1px solid #333;
+  color: #bbb;
+}
+
+/* Floating animation for inputs */
+.form-floating {
+  position: relative;
+}
+
+.form-floating input {
+  height: 60px;
+  padding: 25px 15px 10px;
+}
+
+.form-floating label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.75rem 0.75rem;
+  pointer-events: none;
+  transform-origin: 0 0;
+  transition: all 0.2s ease-in-out;
+  color: #777;
+}
+
+.form-floating input:focus ~ label,
+.form-floating input:not(:placeholder-shown) ~ label {
+  transform: scale(0.75) translateY(-10px);
+  color: #5c6bc0;
+}

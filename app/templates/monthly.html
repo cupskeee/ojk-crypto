@@ -1,0 +1,327 @@
+<!-- app/templates/monthly.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <!-- Add this to your head section or before closing body tag -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+</head>
+<body>
+<!-- Header -->
+{% include 'partials/_header.html' %}
+
+<div class="wrapper">
+    <!-- Sidebar -->
+    {% include 'partials/_sidebar.html' %}
+
+    <!-- Main Content -->
+    <main id="content">
+        <div class="content-header">
+            <h1><i class="fas fa-calendar-day mr-2"></i>Monthly Report</h1>
+            <p class="lead">Generate OJK Monthly Report</p>
+        </div>
+        <!-- Display Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div>
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <!-- Monthly Report Section -->
+        <div class="container">
+            <form method="POST" action="{{ url_for('monthly.generate') }}" id="daily-report-form" class="mb-4">
+                {{ form.hidden_tag() }} <!-- CSRF token -->
+                <div class="form-row">
+                    <div class="col-md-4">
+                        {{ form.month.label(class="form-label") }}
+                        <div class="input-group">
+                            {{ form.month(class="form-control", id="report-date", placeholder="YYYY-MM") }}
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        {{ form.submit(class="btn btn-primary mr-2") }}
+                        {% if form.month.data is not none %}
+                            {{ form.generate(class="btn btn-success") }}
+                        {% endif %}
+                    </div>
+                </div>
+                {% if form.month.errors %}
+                    <div class="text-danger mt-1">
+                        {% for error in form.month.errors %}
+                            <small>{{ error }}</small><br>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </form>
+            <div id="report-results">
+
+                <!-- LKBPAKD Table -->
+                <h3>LKBPAKD</h3>
+                <p class="lead">Laporan Kegiatan Bulanan Pedagang</p>
+                <div class="scrollable-table">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th rowspan="2">#</th>
+                            <th rowspan="2">Uraian</th>
+                            <th colspan="2">Individu</th>
+                            <th colspan="2">Badan Usaha</th>
+                        </tr>
+                        <tr>
+                            <th>WNI</th>
+                            <th>WNA</th>
+                            <th>Domestik</th>
+                            <th>Internasional</th>
+                        </thead>
+                        <tbody>
+                        {% if not lkbpakd %}
+                            <tr>
+                                <td>1</td>
+                                <td>Jumlah Konsumen (awal)</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Jumlah Penambahan Konsumen</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Jumlah Pengurangan Konsumen</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Jumlah Konsumen (Akhir Bulan)</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td>1</td>
+                                <td>Jumlah Konsumen (awal)</td>
+                                <td>{{ lkbpakd["starting_customers"]["Domestik"]["individual"] }}</td>
+                                <td>{{ lkbpakd["starting_customers"]["Asing"]["individual"] }}</td>
+                                <td>{{ lkbpakd["starting_customers"]["Domestik"]["corporate"] }}</td>
+                                <td>{{ lkbpakd["starting_customers"]["Asing"]["corporate"] }}</td>
+                            </tr>
+
+                            <tr>
+                                <td>2</td>
+                                <td>Jumlah Penambahan Konsumen</td>
+                                <td>{{ lkbpakd["new_customers"]["Domestik"]["individual"] }}</td>
+                                <td>{{ lkbpakd["new_customers"]["Asing"]["individual"] }}</td>
+                                <td>{{ lkbpakd["new_customers"]["Domestik"]["corporate"] }}</td>
+                                <td>{{ lkbpakd["new_customers"]["Asing"]["corporate"] }}</td>
+                            </tr>
+
+                            <tr>
+                                <td>3</td>
+                                <td>Jumlah Pengurangan Konsumen</td>
+                                <td>{{ lkbpakd["exiting_customers"]["Domestik"]["individual"] }}</td>
+                                <td>{{ lkbpakd["exiting_customers"]["Asing"]["individual"] }}</td>
+                                <td>{{ lkbpakd["exiting_customers"]["Domestik"]["corporate"] }}</td>
+                                <td>{{ lkbpakd["exiting_customers"]["Asing"]["corporate"] }}</td>
+                            </tr>
+
+                            <tr>
+                                <td>4</td>
+                                <td>Jumlah Konsumen (Akhir Bulan)</td>
+                                <td>{{ lkbpakd["ending_customers"]["Domestik"]["individual"] }}</td>
+                                <td>{{ lkbpakd["ending_customers"]["Asing"]["individual"] }}</td>
+                                <td>{{ lkbpakd["ending_customers"]["Domestik"]["corporate"] }}</td>
+                                <td>{{ lkbpakd["ending_customers"]["Asing"]["corporate"] }}</td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- LRTTHP Table -->
+                <h3>LRTTHP</h3>
+                <p class="lead">Rekapitulasi Top 20 Konsumen Berdasarkan Nilai Transaksi Harian</p>
+                <div class="scrollable-table">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Jenis Identitas</th>
+                            <th>No Identitas</th>
+                            <th>Nama</th>
+                            <th>Kategori Konsumen</th>
+                            <th>Jenis Konsumen</th>
+                            <th>Nilai Transaksi*(Rp)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if not lrtthp %}
+                            <tr>
+                                <td>1</td>
+                                <td>NIK (Domestik)</td>
+                                <td>3271010101990001</td>
+                                <td>John Doe</td>
+                                <td>Domestik</td>
+                                <td>Individu</td>
+                                <td>0,00</td>
+                            </tr>
+                        {% else %}
+                            {% for data in lrtthp %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ data.identification_type }}</td>
+                                    <td>{{ data.identification_number }}</td>
+                                    <td>{{ data.name }}</td>
+                                    <td>{{ data.citizenship }}</td>
+                                    <td>{{ data.customer_type }}</td>
+                                    <td align="right">{{ data.total_transaction_value }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- LRTTOPA Table -->
+                <h3>LRTTOPA</h3>
+                <p class="lead">Rekapitulasi Top 20 Konsumen Berdasarkan Nilai Top Up Dana Fiat</p>
+                <div class="scrollable-table">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Jenis Identitas</th>
+                            <th>No Identitas</th>
+                            <th>Nama</th>
+                            <th>Kategori Konsumen</th>
+                            <th>Jenis Konsumen</th>
+                            <th>Nilai Transaksi*(Rp)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if not lrttopa %}
+                            <tr>
+                                <td>1</td>
+                                <td>NIK (Domestik)</td>
+                                <td>3271010101990001</td>
+                                <td>John Doe</td>
+                                <td>Domestik</td>
+                                <td>Individu</td>
+                                <td>0,00</td>
+                            </tr>
+                        {% else %}
+                            {% for data in lrttopa %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ data.identification_type }}</td>
+                                    <td>{{ data.identification_number }}</td>
+                                    <td>{{ data.name }}</td>
+                                    <td>{{ data.citizenship }}</td>
+                                    <td>{{ data.customer_type }}</td>
+                                    <td align="right">{{ data.total_transaction_value }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- LRTNWDA Table -->
+                <h3>LRTNWDA</h3>
+                <p class="lead">Rekapitulasi Top 20 Konsumen Berdasarkan Nilai Withdraw Dana Fiat</p>
+                <div class="scrollable-table">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Jenis Identitas</th>
+                            <th>No Identitas</th>
+                            <th>Nama</th>
+                            <th>Kategori Konsumen</th>
+                            <th>Jenis Konsumen</th>
+                            <th>Nilai Transaksi*(Rp)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if not lrtnwda %}
+                            <tr>
+                                <td>1</td>
+                                <td>NIK (Domestik)</td>
+                                <td>3271010101990001</td>
+                                <td>John Doe</td>
+                                <td>Domestik</td>
+                                <td>Individu</td>
+                                <td>0,00</td>
+                            </tr>
+                        {% else %}
+                            {% for data in lrtnwda %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ data.identification_type }}</td>
+                                    <td>{{ data.identification_number }}</td>
+                                    <td>{{ data.name }}</td>
+                                    <td>{{ data.citizenship }}</td>
+                                    <td>{{ data.customer_type }}</td>
+                                    <td align="right">{{ data.total_transaction_value }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Footer -->
+{% include 'partials/_footer.html' %}
+<script src="{{ url_for('static', filename='js/jquery.slim.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-datepicker.min.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        // Remove the type="month" attribute if it exists
+        $('#report-date').attr('type', 'text');
+
+        // Initialize the datepicker
+        $('#report-date').datepicker({
+            format: "yyyy-mm",
+            viewMode: "months",
+            minViewMode: "months",
+            autoclose: true
+        });
+
+        // Make the calendar icon trigger the datepicker
+        $('.input-group-append').click(function () {
+            $('#report-date').datepicker('show');
+        });
+    });
+</script>
+</body>
+</html>

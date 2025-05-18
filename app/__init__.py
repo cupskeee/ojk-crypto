@@ -5,6 +5,8 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+
+from app.routes import monthly
 from config import Config
 
 
@@ -22,7 +24,7 @@ migrate = Migrate()
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def create_app(config_class=Config):
-    app = Flask(__name__, instance_relative_config=True, template_folder='templates')
+    app = Flask(__name__, instance_relative_config=True, template_folder='templates', static_folder='static')
     app.config.from_object(config_class)
 
     db.init_app(app)
@@ -38,9 +40,15 @@ def create_app(config_class=Config):
     # Register the blueprints
     from app.routes.main import main
     from app.routes.auth import auth
+    from app.routes.daily import daily
+    from app.routes.monthly import monthly
+    from app.routes.settings import settings
 
     app.register_blueprint(main)
     app.register_blueprint(auth, url_prefix='/auth')
+    app.register_blueprint(daily, url_prefix='/daily')
+    app.register_blueprint(monthly, url_prefix='/monthly')
+    app.register_blueprint(settings, url_prefix='/settings')
 
     from app import models
     from app import forms

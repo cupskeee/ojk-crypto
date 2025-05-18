@@ -5,23 +5,23 @@
     </div>
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link {% if request.endpoint == 'main.index' %}active{% endif %}" href="{{ url_for('main.index') }}">
+            <a class="nav-link {% if request.blueprints == 'main' %}active{% endif %}" href="{{ url_for('main.index') }}">
                 <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link {% if request.blueprint == 'daily' %}active{% endif %}" href="{{ url_for('daily.index') }}">
                 <i class="fas fa-calendar-day mr-2"></i>Daily
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link {% if request.blueprint == 'monthly' %}active{% endif %}" href="{{ url_for('monthly.index') }}">
                 <i class="fas fa-calendar-alt mr-2"></i>Monthly
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="fas fa-calendar mr-2"></i>Yearly
+            <a class="nav-link {% if request.blueprint == 'settings' %}active{% endif %}" href="{{ url_for('settings.index') }}">
+                <i class="fas fa-cogs mr-2"></i>Settings
             </a>
         </li>
     </ul>

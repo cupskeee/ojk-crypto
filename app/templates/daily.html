@@ -1,0 +1,318 @@
+<!-- app/templates/daily.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+<!-- Header -->
+{% include 'partials/_header.html' %}
+
+<div class="wrapper">
+    <!-- Sidebar -->
+    {% include 'partials/_sidebar.html' %}
+
+    <!-- Main Content -->
+    <main id="content">
+        <div class="content-header">
+            <h1><i class="fas fa-calendar-day mr-2"></i>Daily Report</h1>
+            <p class="lead">Generate OJK Daily Report</p>
+        </div>
+        <!-- Display Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div>
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <!-- Daily Report Section -->
+        <div class="container">
+            <form method="POST" action="{{ url_for('daily.generate') }}" id="daily-report-form" class="mb-4">
+                {{ form.hidden_tag() }} <!-- CSRF token -->
+                <div class="form-row">
+                    <div class="col-md-4">
+                        {{ form.date.label(class="form-label") }}
+                        {{ form.date(class="form-control", id="report-date") }}
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        {{ form.submit(class="btn btn-primary mr-2") }}
+                        {% if form.date.data is not none %}
+                        {{ form.generate(class="btn btn-success") }}
+                        {% endif %}
+                    </div>
+                </div>
+                {% if form.date.errors %}
+                    <div class="text-danger mt-1">
+                        {% for error in form.date.errors %}
+                            <small>{{ error }}</small><br>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </form>
+            <div id="report-results">
+                <!-- LSDK Table -->
+                <h3>LSDK</h3>
+                <p class="lead">Saldo Dana Konsumen Harian</p>
+                <div class="scrollable-table">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Sesi</th>
+                            <th>Saldo Dana Posisi Sebelumnya (Rp)</th>
+                            <th>Total Deposit Dana (Rp)</th>
+                            <th>Total Withdraw Dana (Rp)</th>
+                            <th>Saldo Dana Posisi Akhir (Rp)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if not lsdk %}
+                            <tr>
+                                <td>1</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                        {% else %}
+                            {% for item in lsdk %}
+                                <tr>
+                                    <td>{{ item.session }}</td>
+                                    <td align="right">{{ item.previous_balance }}</td>
+                                    <td align="right">{{ item.topup }}</td>
+                                    <td align="right">{{ item.withdrawal }}</td>
+                                    <td align="right">{{ item.final_balance }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <td>Total</td>
+                                <td align="right">{{ lsdk_total.previous_balance }}</td>
+                                <td align="right">{{ lsdk_total.topup }}</td>
+                                <td align="right">{{ lsdk_total.withdrawal }}</td>
+                                <td align="right">{{ lsdk_total.final_balance }}</td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- LTAKDK Table -->
+                <h3>LTAKDK</h3>
+                <p class="lead">Laporan Transaksi Aset Keuangan Digital Konsumen dan Pedagang</p>
+                <div class="scrollable-table">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Uraian</th>
+                            <th>Asing (Rp)</th>
+                            <th>Domestik (Rp)</th>
+                            <th>Nilai (Rp)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if not ltakdk %}
+                            <tr>
+                                <td>1</td>
+                                <td>Total Pembelian Aset Keuangan Digital untuk Konsumen Individu</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Total Pembelian Aset Keuangan Digital untuk Konsumen Institusi</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Total Penjualan Aset Keuangan Digital untuk Konsumen Individu</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Total Penjualan Aset Keuangan Digital untuk Konsumen Institusi</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Total Transaksi On The Counter</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td>1</td>
+                                <td>Total Pembelian Aset Keuangan Digital untuk Konsumen Individu</td>
+                                <td>{{ ltakdk["Asing"]["individual"]["buy"] }}</td>
+                                <td>{{ ltakdk["Domestik"]["individual"]["buy"] }}</td>
+                                <td>{{ ltakdk["Asing"]["individual"]["buy"]+ltakdk["Domestik"]["individual"]["buy"] }}</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Total Pembelian Aset Keuangan Digital untuk Konsumen Institusi</td>
+                                <td>{{ ltakdk["Asing"]["corporate"]["buy"] }}</td>
+                                <td>{{ ltakdk["Domestik"]["corporate"]["buy"] }}</td>
+                                <td>{{ ltakdk["Asing"]["corporate"]["buy"]+ltakdk["Domestik"]["corporate"]["buy"] }}</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Total Penjualan Aset Keuangan Digital untuk Konsumen Individu</td>
+                                <td>{{ ltakdk["Asing"]["individual"]["sell"] }}</td>
+                                <td>{{ ltakdk["Domestik"]["individual"]["sell"] }}</td>
+                                <td>{{ ltakdk["Asing"]["individual"]["sell"]+ltakdk["Domestik"]["individual"]["sell"] }}</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Total Penjualan Aset Keuangan Digital untuk Konsumen Institusi</td>
+                                <td>{{ ltakdk["Asing"]["corporate"]["buy"] }}</td>
+                                <td>{{ ltakdk["Domestik"]["corporate"]["buy"] }}</td>
+                                <td>{{ ltakdk["Asing"]["corporate"]["buy"]+ltakdk["Domestik"]["corporate"]["buy"] }}</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Total Transaksi On The Counter</td>
+                                <td>{{ ltakdk["Asing"]["individual"]["buy"]+ltakdk["Asing"]["corporate"]["buy"]+ltakdk["Asing"]["individual"]["sell"]+ltakdk["Asing"]["corporate"]["buy"] }}</td>
+                                <td>{{ ltakdk["Domestik"]["individual"]["buy"]+ltakdk["Domestik"]["corporate"]["buy"]+ltakdk["Domestik"]["individual"]["sell"]+ltakdk["Domestik"]["corporate"]["buy"] }}</td>
+                                <td>{{ ltakdk["Asing"]["individual"]["buy"]+ltakdk["Domestik"]["individual"]["buy"]+ltakdk["Asing"]["corporate"]["buy"]+ltakdk["Domestik"]["corporate"]["buy"]+ltakdk["Asing"]["individual"]["sell"]+ltakdk["Domestik"]["individual"]["sell"]+ltakdk["Asing"]["corporate"]["buy"]+ltakdk["Domestik"]["corporate"]["buy"] }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- LSTAKDKP Table -->
+                <h3>LSTAKDKP</h3>
+                <p class="lead">Saldo dan Transaksi Aset Keuangan Digital Konsumen dan Pedagang</p>
+                <div class="scrollable-table">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Kode AKD</th>
+                            <th>Nama AKD</th>
+                            <th>AKD Pedagang</th>
+                            <th>AKD Konsumen di Pedagang</th>
+                            <th>AKD Konsumen di Penyimpanan</th>
+                            <th>Harga</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if not lstakdkp %}
+                            <tr>
+                                <td>1</td>
+                                <td>---</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                        {% else %}
+                            {% for data in lstakdkp %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ data.symbol }}</td>
+                                    <td>{{ data.name }}</td>
+                                    <td align="right">0</td>
+                                    <td align="right">{{ data.akd_konsumen_pedagang }}</td>
+                                    <td align="right">{{ data.akd_konsumen_penyimpanan }}</td>
+                                    <td align="right">{{ data.price }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <!-- LRTAK Table -->
+                <h3>LRTAK</h3>
+                <p class="lead">Rekapitulasi Transaksi Harian per Aset Kripto</p>
+                <div class="scrollable-table">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Kode AKD</th>
+                            <th>Nama AKD</th>
+                            <th>Harga Terendah (Rp)</th>
+                            <th>Harga Tertinggi (Rp)</th>
+                            <th>Frekuensi Transaksi</th>
+                            <th>Volume</th>
+                            <th>Nilai (Rp)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if not lrtak %}
+                            <tr>
+                                <td>1</td>
+                                <td>---</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                        {% else %}
+                            {% for data in lrtak %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ data.symbol }}</td>
+                                    <td>{{ data.name }}</td>
+                                    <td align="right">{{ data.min_price }}</td>
+                                    <td align="right">{{ data.max_price }}</td>
+                                    <td align="right">{{ data.transaction_frequency }}</td>
+                                    <td align="right">{{ data.total_volume }}</td>
+                                    <td align="right">{{ data.total_value }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Footer -->
+{% include 'partials/_footer.html' %}
+<script src="{{ url_for('static', filename='js/jquery.slim.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</body>
+</html>

@@ -2,11 +2,10 @@ import logging
 from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import login_user, current_user, logout_user
 from app import db
+from app.routes import auth
 from app.models import User
 from app.forms import LoginForm
 from app.utils.decorator import login_required
-
-auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
