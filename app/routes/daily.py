@@ -32,8 +32,6 @@ def _generate_report_data(start_date, end_date, cutoff_date):
     lrtak = generate_asset_transaction_report(start_date, end_date)
     lstakdkp = generate_holdings_report(cutoff_date)
     lsdk = generate_topup_withdrawal_report(start_date)
-    for item in lsdk:
-        print(item)
 
     lsdk_total = {
         'previous_balance': sum(item['previous_balance'] for item in lsdk),
