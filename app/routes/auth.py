@@ -18,12 +18,12 @@ def login():
             login_user(user)
             return redirect(url_for('main.index'))
         else:
-            flash('Invalid username or password')
+            flash('Invalid username or password', 'error')
     return render_template('login.html', form=form)
 
 @auth.route('/logout', methods=['GET'])
 @login_required
 def logout():
     logout_user()
-    flash('You have been logged out.')
+    flash('You have been logged out.', 'success')
     return redirect(url_for('auth.login'))

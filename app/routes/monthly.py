@@ -61,7 +61,7 @@ def generate():
 
     if form.submit.data:
         lkbpakd, lrtthp, lrttopa, lrtnwda = _generate_report_data(start_date, end_date)
-        flash('Monthly report generated successfully!')
+        flash('Monthly report generated successfully!', 'success')
         return render_template('monthly.html', form=form, lkbpakd=lkbpakd, lrtthp=lrtthp, lrttopa=lrttopa,
                                lrtnwda=lrtnwda)
     elif form.generate.data:

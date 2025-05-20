@@ -65,7 +65,7 @@ def generate():
         if form.submit.data:
             # Display the report on the page
             ltakdk, lrtak, lstakdkp, lsdk, lsdk_total = _generate_report_data(start_date, end_date, cutoff_date)
-            flash('Daily report generated successfully!')
+            flash('Daily report generated successfully!', 'success')
             return render_template(
                 'daily.html',
                 form=form,
@@ -92,6 +92,7 @@ def generate():
             output.seek(0)
 
             filename = f"daily_report_{selected_date.strftime('%Y%m%d')}.xlsx"
+            flash('Daily report generated successfully! Your download should begin shortly.', 'success')
             return send_file(
                 output,
                 as_attachment=True,
@@ -103,14 +104,3 @@ def generate():
         flash(f'Error generating report: {str(e)}', 'error')
 
     return render_template('daily.html', form=form)
-
-
-@daily.route('/download', methods=['POST'])
-@login_required
-def download():
-    """Handle downloading of report data."""
-    try:
-        # Download logic implementation here
-        return jsonify({'message': 'Download initiated', 'status': 'success'}), 200
-    except Exception as e:
-        return jsonify({'message': f'Download failed: {str(e)}', 'status': 'error'}), 500
