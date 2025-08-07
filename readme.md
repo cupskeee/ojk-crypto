@@ -74,5 +74,3 @@ python run.py
 Muhammad Yusuf Ramadhan\
 BINUS University - Computer Science\
 [LinkedIn](https://www.linkedin.com/in/muhammadyusuframadhan/)
-
-P.S. I finished this project in 5 days, yet the thesis took 3 months to complete. So that's that.
