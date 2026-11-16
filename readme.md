@@ -158,4 +158,4 @@ DATABASE_URL=sqlite:///instance/app.db
 
 Muhammad Yusuf Ramadhan\
 BINUS University - Computer Science\
-[LinkedIn](https://www.linkedin.com/in/muhammadyusuframadhan/)
+[LinkedIn](https://www.linkedin.com/in/yusuframadhan/)
